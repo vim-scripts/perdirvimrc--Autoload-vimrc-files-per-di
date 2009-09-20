@@ -1,0 +1,32 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=2792
+
+This script loads Vim configuration files at startup beginning
+from the root directory down to the current working directory.
+
+This is useful when you want to to set up a specific configuration that
+is only loaded when you edit files within a certain directory.
+ 
+Let's look at a common situation. To configure Vim depending on your
+project, your tree would look like this:
+
+~/projects  .................................. Your programming projects
+~/projects/.vim  .......................... Vim settings for all your projects
+~/projects/c-projects  ................ Your C projects
+~/projects/c-projects/.vim  ........ Vim settings for your C projects
+~/projects/php-projects  ........... Your PHP projects
+~/projects/php-projects/.vim  ... Vim settings for your PHP projects
+
+When you open the file ~/projects/c-projects/main.c the plugin loads
+this files in the given order:
+
+~/projects/.vim
+~/projects/c-projects/.vim
+
+The scripts autoloads files with the name
+
+      _vimrc
+      _vim
+      .vimrc
+      .vim
+
+
