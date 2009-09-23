@@ -1,8 +1,8 @@
 " perdirvimrc.vim
 "
 " Author: Wolfgang Plaschg <wolfgang.plaschg at gmail.com>
-" Version: 0.1
-" Last Change: 2009-09-19
+" Version: 0.2
+" Last Change: 2009-09-23
 "
 " This script loads Vim configuration files at startup beginning
 " from the root directory down to the current working directory.
@@ -49,21 +49,26 @@ else
 	let s:vimrc = ['.vim', '.vimrc', '_vimrc', '_vim']
 endif
 
-let s:dirlist = split(getcwd(), s:dir_separator) 
-let s:j = 0
-let s:subdir = []
-while s:j < len(s:dirlist)
-  call add(s:subdir, s:dirlist[s:j])
+function! LoadVimRes(path)
+	let s:dirlist = split(a:path, s:dir_separator) 
+	let s:j = 0
+	let s:subdir = []
+	while s:j < len(s:dirlist)
+	  call add(s:subdir, s:dirlist[s:j])
 
-  let s:k = 0
-  while s:k < len(s:vimrc)
-    " load s:vimrc1
-    let s:filename = join(s:subdir, s:dir_separator).s:dir_separator.s:vimrc[s:k]
-    if filereadable(s:filename) != 0
-       exe 'source '.s:filename
-    endif
-    let s:k = s:k + 1
-  endwhile
+	  let s:k = 0
+	  while s:k < len(s:vimrc)
+		" load s:vimrc1
+		let s:filename = join(s:subdir, s:dir_separator).s:dir_separator.s:vimrc[s:k]
+		if filereadable(s:filename) != 0
+		   exe 'source '.s:filename
+		endif
+		let s:k = s:k + 1
+	  endwhile
 
-  let s:j = s:j + 1
-endwhile
+	  let s:j = s:j + 1
+	endwhile
+endfunction
+
+call LoadVimRes(getcwd())
+autocmd BufRead * call LoadVimRes(expand('%:p:h'))
