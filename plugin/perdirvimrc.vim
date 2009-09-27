@@ -43,10 +43,12 @@ if (has("win32") || has("gui_win32") || has("gui_win32s") || has("win16") || has
 	" windows
 	let s:dir_separator = '\'
 	let s:vimrc = ['_vimrc', '_vim', '.vim', '.vimrc']
+	let s:unix = 0
 else
 	" unix
 	let s:dir_separator = '/'
 	let s:vimrc = ['.vim', '.vimrc', '_vimrc', '_vim']
+	let s:unix = 1
 endif
 
 function! LoadVimRes(path)
@@ -60,6 +62,9 @@ function! LoadVimRes(path)
 	  while s:k < len(s:vimrc)
 		" load s:vimrc1
 		let s:filename = join(s:subdir, s:dir_separator).s:dir_separator.s:vimrc[s:k]
+		if s:unix == 1
+			let s:filename = s:dir_separator . s:filename
+		endif
 		if filereadable(s:filename) != 0
 		   exe 'source '.s:filename
 		endif
